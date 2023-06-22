@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useQueryParam } from "gatsby-query-params";
 
 const pageStyles = {
   color: "#232129",
@@ -7,6 +8,16 @@ const pageStyles = {
 }
 
 const IndexPage = () => {
+  const identity = useQueryParam("identity", undefined);
+  React.useEffect(()=>{
+    console.log("onLoad")
+    if (identity){
+      console.log("identity")
+      window.rudderanalytics.identify(identity, {
+        phoneNumber: identity
+      })
+    }
+  },[identity])
 
   const [phoneNumber, setphoneNumber] = React.useState("")
 
@@ -24,7 +35,7 @@ const IndexPage = () => {
 
   const track = React.useCallback(()=>{
     window.rudderanalytics.track(
-      "visitWeb",
+      "clickBtnNilaiq",
       {
       },
       () => {
